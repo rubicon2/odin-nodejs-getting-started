@@ -1,0 +1,116 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      box-sizing: border-box;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: inherit;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .nav-background,
+    .footer-background {
+      background-color: darkslategrey;
+      color: white;
+    }
+
+    .nav-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-content a {
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .nav-content a:hover {
+      filter: brightness(0.7);
+    }
+
+    .nav-logo {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .nav-content ul {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      gap: 1em;
+    }
+
+    .new-blog-form {
+      max-width: 600px;
+    }
+
+    .new-blog-form input,
+    .new-blog-form textarea,
+    .new-blog-form button {
+      font-size: 1rem;
+      font-family: 'Open Sans', sans-serif;
+      border-radius: 5px;
+      /* Just for textarea */
+      resize: vertical;
+    }
+
+    .new-blog-form input,
+    .new-blog-form textarea {
+      font-size: 1rem;
+      font-family: 'Open Sans', sans-serif;
+      display: block;
+      width: 100%;
+      margin: 0.5em 0;
+      padding: 0.5em;
+      border: 1px solid darkslategrey;
+    }
+
+    .new-blog-form button {
+      padding: 0.5em 1.5em;
+      background-color: darkslategrey;
+      color: white;
+      border: none;
+
+      cursor: pointer;
+    }
+    .new-blog-form button:hover {
+      filter: brightness(0.7);
+    }
+
+    .footer-content {
+      text-align: center;
+    }
+  </style>
+  <title>Bloggo | <%= title %></title>
+</head>
