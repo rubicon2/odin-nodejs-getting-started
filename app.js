@@ -1,8 +1,11 @@
 const express = require('express');
+const morgan = require('morgan');
 
 const app = express();
 app.set('view engine', 'ejs');
 app.listen(8080);
+
+app.use(morgan('combined'));
 
 app.get('/', (req, res) => {
   const blogs = [
