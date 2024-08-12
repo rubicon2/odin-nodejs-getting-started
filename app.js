@@ -5,6 +5,7 @@ const app = express();
 app.set('view engine', 'ejs');
 app.listen(8080);
 
+app.use(express.static('public'));
 app.use(morgan('combined'));
 
 app.get('/', (req, res) => {
