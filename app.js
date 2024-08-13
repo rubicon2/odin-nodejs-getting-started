@@ -1,24 +1,61 @@
 const express = require('express');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
+const Blog = require('./models/blog');
+const { ObjectId } = mongoose.Types.ObjectId;
 
 const app = express();
 app.set('view engine', 'ejs');
-app.listen(8080);
 
 app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
 app.use(morgan('combined'));
 
+const uri =
+  'mongodb+srv://liam:qusx5H5L9lgfCXcq@learn.zme72.mongodb.net/?retryWrites=true&w=majority&appName=Learn';
+mongoose
+  .connect(uri)
+  .then((result) => {
+    console.log('Connected to db');
+    app.listen(8080);
+  })
+  .catch((error) => console.error(error));
+
 app.get('/', (req, res) => {
-  const blogs = [
-    { title: 'Blog 1', snippet: 'I am a blog one' },
-    { title: 'Blog 2', snippet: 'I am a blog two' },
-    { title: 'Blog 3', snippet: 'I am a blog three' },
-  ];
-  res.render('index', { title: 'Home', blogs });
+  res.redirect('/blogs');
 });
 
+app.get('/blogs', async (req, res) => {
+  try {
+    const blogs = await Blog.find().sort({ createdAt: -1 });
+    res.render('index', { title: 'Home', blogs });
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+// This needs to go before /blogs/:id otherwise it won't load.
 app.get('/blogs/create', (req, res) => {
   res.render('new-blog', { title: 'New Blog' });
+});
+
+
+app.get('/blogs/:id', async (req, res) => {
+  try {
+    const blog = await Blog.findById(req.params.id);
+    res.render('blog', { title: blog.title, blog });
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+app.post('/blogs', async (req, res) => {
+  try {
+    await Blog.create(new Blog(req.body));
+    res.redirect('/blogs/posted');
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 app.get('/about', (req, res) => {
