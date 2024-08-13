@@ -1,57 +1,31 @@
 const express = require('express');
-const Blog = require('../models/blog');
+const {
+  blog_index,
+  blog_details,
+  blog_delete,
+  blog_create_post,
+  blog_create_get,
+  blog_posted,
+  blog_deleted,
+} = require('../controller/blogController');
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
-  try {
-    const blogs = await Blog.find().sort({ createdAt: -1 });
-    res.render('index', { title: 'Home', blogs });
-  } catch (error) {
-    console.error(error);
-  }
-});
+router.get('/', blog_index);
 
 // This needs to go before /blogs/:id otherwise it won't load.
-router.get('/create', (req, res) => {
-  res.render('new-blog', { title: 'New Blog' });
-});
+router.get('/create', blog_create_get);
 
 // This needs to go before /blogs/:id otherwise it won't load.
-router.get('/posted', (req, res) => {
-  res.render('blog-posted', { title: 'Blog Posted' });
-});
+router.get('/posted', blog_posted);
 
 // This needs to go before /blogs/:id otherwise it won't load.
-router.get('/deleted', (req, res) => {
-  res.render('blog-deleted', { title: 'Blog Deleted' });
-});
+router.get('/deleted', blog_deleted);
 
-router.get('/:id', async (req, res) => {
-  try {
-    const blog = await Blog.findById(req.params.id);
-    res.render('blog', { title: blog.title, blog });
-  } catch (error) {
-    console.error(error);
-  }
-});
+router.get('/:id', blog_details);
 
-router.delete('/:id', async (req, res) => {
-  try {
-    await Blog.findByIdAndDelete(req.params.id);
-    res.json({ redirect: '/blogs/deleted' });
-  } catch (error) {
-    console.error(error);
-  }
-});
+router.delete('/:id', blog_delete);
 
-router.post('/', async (req, res) => {
-  try {
-    await Blog.create(new Blog(req.body));
-    res.redirect('/blogs/posted');
-  } catch (error) {
-    console.error(error);
-  }
-});
+router.post('/', blog_create_post);
 
 module.exports = router;
