@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <%- include('./partials/head.ejs') %>
+  <body>
+    <%- include('./partials/nav.ejs') %>
+
+    <div class="container blogs-content">
+      <% if (blog) { %>
+        <header class="blog-header">
+          <h2 class="blog-title"><%= blog.title %></h2>
+          <a class="blog-header__delete-button" data-doc="<%= blog.id %>">Delete</a>
+        </header>
+        <p class="blog-body"><%= blog.body %></p>
+      <% } else { %>
+        <p>Blog not found.</p>
+      <% } %>
+    </div>
+
+    <%- include('./partials/footer') %>
+
+    <script>
+      const deleteButton = document.querySelector('.blog-header__delete-button');
+      deleteButton.addEventListener('click', async (event) => {
+        const endpoint = `/blogs/${deleteButton.getAttribute('data-doc')}`;
+        console.log("endpoint: ", endpoint);
+        try {
+          const response = await fetch(endpoint, {
+            method: 'DELETE'
+          });
+          const json = await response.json();
+          // This doesn't seem to redirect, or do anything.
+          window.location.href = json.redirect;
+        } catch (error) {
+          console.error(error);
+        }
+      })
+    </script>
+  </body>
+</html>

@@ -58,6 +58,15 @@ app.get('/blogs/:id', async (req, res) => {
   }
 });
 
+app.delete('/blogs/:id', async (req, res) => {
+  try {
+    await Blog.findByIdAndDelete(req.params.id);
+    res.json({ redirect: '/blogs/deleted' });
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 app.post('/blogs', async (req, res) => {
   try {
     await Blog.create(new Blog(req.body));

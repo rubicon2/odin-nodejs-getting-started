@@ -61,6 +61,30 @@ h6 {
   gap: 1em;
 }
 
+.blog-link {
+  color: black;
+  text-decoration: none;
+}
+
+.blog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.blog-header__delete-button {
+  padding: 0.5em;
+  background-color: white;
+  border: 1px solid black;
+  font-family: 'Open Sans', sans-serif;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+.blog-header__delete-button:hover {
+  cursor: pointer;
+  filter: brightness(0.7);
+}
+
 .new-blog-form {
   max-width: 600px;
 }
