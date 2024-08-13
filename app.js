@@ -39,6 +39,15 @@ app.get('/blogs/create', (req, res) => {
   res.render('new-blog', { title: 'New Blog' });
 });
 
+// This needs to go before /blogs/:id otherwise it won't load.
+app.get('/blogs/posted', (req, res) => {
+  res.render('blog-posted', { title: 'Blog Posted' });
+});
+
+// This needs to go before /blogs/:id otherwise it won't load.
+app.get('/blogs/deleted', (req, res) => {
+  res.render('blog-deleted', { title: 'Blog Deleted' });
+});
 
 app.get('/blogs/:id', async (req, res) => {
   try {
