@@ -1,8 +1,10 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const Blog = require('./models/blog');
+
 const { ObjectId } = mongoose.Types.ObjectId;
+
+const blogRoutes = require('./routes/blogRoutes');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -25,57 +27,6 @@ app.get('/', (req, res) => {
   res.redirect('/blogs');
 });
 
-app.get('/blogs', async (req, res) => {
-  try {
-    const blogs = await Blog.find().sort({ createdAt: -1 });
-    res.render('index', { title: 'Home', blogs });
-  } catch (error) {
-    console.error(error);
-  }
-});
-
-// This needs to go before /blogs/:id otherwise it won't load.
-app.get('/blogs/create', (req, res) => {
-  res.render('new-blog', { title: 'New Blog' });
-});
-
-// This needs to go before /blogs/:id otherwise it won't load.
-app.get('/blogs/posted', (req, res) => {
-  res.render('blog-posted', { title: 'Blog Posted' });
-});
-
-// This needs to go before /blogs/:id otherwise it won't load.
-app.get('/blogs/deleted', (req, res) => {
-  res.render('blog-deleted', { title: 'Blog Deleted' });
-});
-
-app.get('/blogs/:id', async (req, res) => {
-  try {
-    const blog = await Blog.findById(req.params.id);
-    res.render('blog', { title: blog.title, blog });
-  } catch (error) {
-    console.error(error);
-  }
-});
-
-app.delete('/blogs/:id', async (req, res) => {
-  try {
-    await Blog.findByIdAndDelete(req.params.id);
-    res.json({ redirect: '/blogs/deleted' });
-  } catch (error) {
-    console.error(error);
-  }
-});
-
-app.post('/blogs', async (req, res) => {
-  try {
-    await Blog.create(new Blog(req.body));
-    res.redirect('/blogs/posted');
-  } catch (error) {
-    console.error(error);
-  }
-});
-
 app.get('/about', (req, res) => {
   res.render('about', { title: 'About' });
 });
@@ -83,6 +34,8 @@ app.get('/about', (req, res) => {
 app.get('/about-us', (req, res) => {
   res.redirect('/about');
 });
+
+app.use('/blogs', blogRoutes);
 
 // Only runs if none of the other get requests match.
 app.use((req, res) => {
